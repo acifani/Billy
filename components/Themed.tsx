@@ -1,6 +1,11 @@
+import { useTheme } from '@react-navigation/native';
 import * as React from 'react';
-import { Text as DefaultText, View as DefaultView } from 'react-native';
-
+import {
+  ButtonProps as DefaultButtonProps,
+  Text as DefaultText,
+  TextInput as DefaultTextInput,
+  View as DefaultView,
+} from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 
@@ -18,24 +23,65 @@ export function useThemeColor(
   }
 }
 
-type ThemeProps = {
+interface ThemeProps {
   lightColor?: string;
   darkColor?: string;
-};
-
-export type TextProps = ThemeProps & DefaultText['props'];
-export type ViewProps = ThemeProps & DefaultView['props'];
-
-export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
-export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+interface ButtonOwnProps {
+  primary?: boolean;
+}
 
-  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+export type ButtonProps = DefaultButtonProps & ThemeProps & ButtonOwnProps;
+
+export type TextProps = ThemeProps & DefaultText['props'];
+export type TextInputProps = ThemeProps & DefaultTextInput['props'];
+export type ViewProps = ThemeProps & DefaultView['props'];
+
+export function Text({
+  style,
+  lightColor,
+  darkColor,
+  ...otherProps
+}: TextProps) {
+  const theme = useTheme();
+
+  return (
+    <DefaultText
+      style={[{ color: theme.colors.text }, style]}
+      {...otherProps}
+    />
+  );
+}
+
+export function View({
+  style,
+  lightColor,
+  darkColor,
+  ...otherProps
+}: ViewProps) {
+  const theme = useTheme();
+
+  return (
+    <DefaultView
+      style={[{ backgroundColor: theme.colors.background }, style]}
+      {...otherProps}
+    />
+  );
+}
+
+export function TextInput({
+  style,
+  lightColor,
+  darkColor,
+  ...otherProps
+}: TextInputProps) {
+  const theme = useTheme();
+
+  return (
+    <DefaultTextInput
+      style={[{ color: theme.colors.text }, style]}
+      {...otherProps}
+    />
+  );
 }

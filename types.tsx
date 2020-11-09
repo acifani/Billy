@@ -1,17 +1,17 @@
 export type RootStackParamList = {
-  Root: undefined;
+  Subscriptions: undefined;
+  Details: undefined;
   NotFound: undefined;
 };
 
-export type BottomTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
-};
+export type FrequencyUnit = 'day' | 'week' | 'month' | 'year';
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
-};
-
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
-};
+export interface Subscription {
+  id: string;
+  name: string;
+  description?: string;
+  amount: number;
+  startDate?: number;
+  frequencyAmount?: number;
+  frequencyUnit?: FrequencyUnit;
+}
