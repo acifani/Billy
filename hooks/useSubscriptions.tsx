@@ -8,20 +8,47 @@ import React, {
 } from 'react';
 import type { Subscription } from '../types';
 
-const defaultSubs: Subscription[] = [
-  {
-    id: '1',
-    name: 'Spotify',
-    description: 'Spotify con alby ed oreste',
-    amount: 15,
-    frequencyAmount: 6,
-    frequencyUnit: 'month',
-  },
-  { id: '2', name: 'Netflix' },
-  { id: '3', name: 'Disney+' },
-  { id: '4', name: 'Amazon Prime' },
-  { id: '5', name: 'Vodafone' },
-];
+const defaultSubs: Subscription[] = __DEV__
+  ? [
+      {
+        id: '1',
+        name: 'Spotify',
+        amount: 9.99,
+        frequencyAmount: 1,
+        frequencyUnit: 'month',
+      },
+      {
+        id: '2',
+        name: 'Netflix',
+        description: 'UHD plan',
+        amount: 15.99,
+        frequencyAmount: 1,
+        frequencyUnit: 'month',
+      },
+      {
+        id: '3',
+        name: 'Disney+',
+        amount: 6.99,
+        frequencyAmount: 1,
+        frequencyUnit: 'month',
+      },
+      {
+        id: '4',
+        name: 'Google Drive',
+        description: '100GB plan',
+        amount: 19.99,
+        frequencyAmount: 1,
+        frequencyUnit: 'year',
+      },
+      {
+        id: '5',
+        name: 'Vodafone',
+        amount: 65,
+        frequencyAmount: 2,
+        frequencyUnit: 'month',
+      },
+    ]
+  : [];
 
 const SubscriptionsContext = createContext<{
   subscriptions: Subscription[];
@@ -41,8 +68,6 @@ export const SubscriptionsContextProvider: React.FC = ({ children }) => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>(
     defaultSubs
   );
-
-  console.log(subscriptions);
 
   const updateSubscription = useCallback(
     (sub: Subscription) => {
