@@ -14,6 +14,6 @@ export default function Details() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 18,
+    paddingHorizontal: 18,
   },
 });

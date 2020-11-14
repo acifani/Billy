@@ -6,10 +6,11 @@ import {
   ListRenderItem,
   Pressable,
   StyleSheet,
+  View as NativeView,
 } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useSubscriptions } from '../hooks/useSubscriptions';
 import { Subscription } from '../types';
+import { SwipeableRow } from './Swipeable';
 import { Text } from './Themed';
 
 export function SubscriptionList() {
@@ -37,23 +38,25 @@ function Item({ item }: ItemProps) {
   const theme = useTheme();
 
   return (
-    <Swipeable
-      containerStyle={{ ...styles.item, borderColor: theme.colors.border }}
-      renderLeftActions={() => <Text style={styles.leftAction}>Delete</Text>}
-      onSwipeableLeftOpen={() =>
-        Alert.alert(
-          'Confirm deletion',
-          'Are you sure you want to delete the subscription?',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            {
-              text: 'Delete',
-              style: 'destructive',
-              onPress: () => deleteSubscription(item.id),
-            },
-          ]
-        )
-      }
+    <SwipeableRow
+      leftAction={{
+        text: 'Delete',
+        backgroundColor: 'red',
+        callback: () =>
+          Alert.alert(
+            'Confirm deletion',
+            'Are you sure you want to delete the subscription?',
+            [
+              { text: 'Cancel', style: 'cancel' },
+              {
+                text: 'Delete',
+                style: 'destructive',
+                onPress: () => deleteSubscription(item.id),
+              },
+            ]
+          ),
+      }}
+      rightActions={[]}
     >
       <Pressable
         style={({ pressed }) => ({
@@ -64,9 +67,12 @@ function Item({ item }: ItemProps) {
         })}
         onPress={() => navigation.navigate('Details', { item, type: 'edit' })}
       >
-        <Text style={styles.itemName}>{item.name}</Text>
+        <NativeView style={styles.itemContainer}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemPrice}>{item.amount} €</Text>
+        </NativeView>
       </Pressable>
-    </Swipeable>
+    </SwipeableRow>
   );
 }
 
@@ -75,16 +81,17 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomWidth: 1,
   },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   itemName: {
     fontWeight: 'bold',
     fontSize: 20,
   },
-  leftAction: {
-    textAlignVertical: 'center',
-    height: '100%',
-    fontSize: 20,
-    color: 'red',
-    marginHorizontal: 12,
-    paddingVertical: 20,
+  itemPrice: {
+    fontSize: 18,
   },
 });
