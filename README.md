@@ -1,6 +1,6 @@
 # Billy
 
-> React native app for tracking subscriptions
+> SwiftUI app for tracking subscriptions
 
 | Subscription                           | List                            | Dark mode                                 |
 | -------------------------------------- | ------------------------------- | ----------------------------------------- |
